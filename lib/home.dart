@@ -38,7 +38,7 @@ class HomeState extends State<Home> {
           body: TabBarView(
             children: <Widget>[
               Center(
-                child: Text('Uans'),
+                child: Image.asset('assets/images/logo.png'),
               ),
               Center(
                 child: Text('Zwoa'),
