@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class title extends StatelessWidget {
+class MyTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       return CircleAvatar(

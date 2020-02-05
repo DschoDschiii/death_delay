@@ -46,15 +46,15 @@ class _WelcomePageState extends State<WelcomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                title(),
+                MyTitle(),
                 SizedBox(
                   height: 20,
                 ),
-                emailPasswordWidget(),
+                EmailPasswordWidget(),
                 SizedBox(
                   height: 20,
                 ),
-                submitButton(),
+                SubmitButton(formKey: _formKey),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   alignment: Alignment.centerRight,
