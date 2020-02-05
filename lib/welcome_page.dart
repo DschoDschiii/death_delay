@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import 'widget/email_password_widget.dart';
+import 'widget/submit_button.dart';
+import 'widget/title.dart';
 
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key key, this.title}) : super(key: key);
@@ -13,82 +15,16 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  Widget _submitButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Home())); //TODO
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.cyan.withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Login',
-          style: TextStyle(fontSize: 20, color: Colors.blue),
-        ),
-      ),
-    );
-  }
-
-  Widget _title() {
-    return CircleAvatar(
-        child: Image(image: AssetImage('assets/images/logo.png')),
-        backgroundColor: Colors.white,
-        radius: 100,
-    );
-  }
-
-  Widget _entryField(String title, {bool isPassword = false}) {
-    String t = 'Enter ' + 'your ' + title;
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          TextField(
-              obscureText: isPassword,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  hintText: t,
-                  fillColor: Colors.white,
-                  filled: true))
-        ],
-      ),
-    );
-  }
-
-  Widget _emailPasswordWidget() {
-    return Column(
-      children: <Widget>[
-        _entryField("Email"),
-        _entryField("Password", isPassword: true),
-      ],
-    );
-  }
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form.
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+        body: Form(
+      key: _formKey,
+      child: Stack(
         children: <Widget>[
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -110,15 +46,15 @@ class _WelcomePageState extends State<WelcomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                _title(),
+                title(),
                 SizedBox(
                   height: 20,
                 ),
-                _emailPasswordWidget(),
+                emailPasswordWidget(),
                 SizedBox(
                   height: 20,
                 ),
-                _submitButton(),
+                submitButton(),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   alignment: Alignment.centerRight,
@@ -131,6 +67,6 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
