@@ -1,8 +1,14 @@
 import 'package:death_delay/settings.dart';
+import 'package:death_delay/widget/tab_two.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
+
+import 'widget/my_floating_button.dart';
+import 'widget/tab_one.dart';
 
 class Home extends StatefulWidget {
+
   @override
   HomeState createState() {
     return new HomeState();
@@ -10,6 +16,16 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  String _text = 'Scan off';
+  FlutterNfcReader reader;
+
+  void _handleTap(){
+    setState(() {
+        _text = 'Scan on';
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -37,14 +53,12 @@ class HomeState extends State<Home> {
           ),
           body: TabBarView(
             children: <Widget>[
-              Center(
-                child: Image.asset('assets/images/logo.png'),
-              ),
-              Center(
-                child: Text('Zwoa'),
-              )
+              TabOne(text: _text),
+              TabTwo()
             ],
-          )
+          ),
+
+          floatingActionButton: MyFloatingButton(onChanged: _handleTap)
       ),
     );
   }
