@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'widget/settings_widget.dart';
+
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class Settings extends StatelessWidget {
 //        ],
       ),
       body: Center(
-        child: Text('Some settings'),
+        child: SettingsWidget()
       ),
     );
   }
