@@ -58,7 +58,7 @@ class HomeState extends State<Home> {
             ],
           ),
 
-          floatingActionButton: MyFloatingButton(onChanged: _handleTap)
+//          floatingActionButton: MyFloatingButton(onChanged: _handleTap)
       ),
     );
   }
