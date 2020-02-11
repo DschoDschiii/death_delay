@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:death_delay/widget/tab_one_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +20,7 @@ class TabOne extends StatefulWidget {
 class TabOneState extends State<TabOne> {
   NfcData _nfcData;
 
-  Future<NfcData> startNFC() async {
+  Future<String> startNFC() async {
     NfcData response;
 
     setState(() {
@@ -36,17 +39,23 @@ class TabOneState extends State<TabOne> {
     setState(() {
       _nfcData = response;
     });
-    return _nfcData;
+    return data(_nfcData);
   }
 
-  String data(String s){
-    print(s);
-    int i = s.indexOf('[');
-    int j = s.lastIndexOf(']')+1;
+  String data(NfcData nd){
+    print('ID:' + nd.id);
+    print('Content:' + nd.content);
+    print('Error:' + nd.error);
+    print('Status:' + nd.status.toString());
+    String s = nd.content;
+    int i = s.indexOf('{');
+    int j = s.lastIndexOf('}')+1;
     if(i == null || i<0){
-      return 'Could not read NFC-Tag';
+      return '';
     }else {
-      string = s.substring(i, j);
+      dynamic js = jsonDecode(s.substring(i, j));
+      print(js
+      );
       return s.substring(i, j);
     }
   }
@@ -56,7 +65,7 @@ class TabOneState extends State<TabOne> {
     return FutureBuilder(
         future: startNFC(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (!snapshot.hasData || (snapshot.data as String).length <= 0) {
             return Center(
                 child: CircularProgressIndicator());
           } else {
@@ -65,11 +74,7 @@ class TabOneState extends State<TabOne> {
                 child: Text('Error reading'),
               );
             }else{
-              return Center(
-                child: Text(
-                    data((snapshot.data as NfcData).content)
-                ),
-              );
+              return Padding(child: TabOneTable(snapshot.data), padding: EdgeInsets.all(20));
             }
           }
         }
