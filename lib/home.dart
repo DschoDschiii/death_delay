@@ -2,13 +2,12 @@ import 'package:death_delay/settings.dart';
 import 'package:death_delay/widget/tab_two.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
 
-import 'widget/my_floating_button.dart';
 import 'widget/tab_one.dart';
 
-class Home extends StatefulWidget {
+String patient; //TODO find better way to keep patient info
 
+class Home extends StatefulWidget {
   @override
   HomeState createState() {
     return new HomeState();
@@ -16,15 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  String _text = 'Scan off';
-  FlutterNfcReader reader;
-
-  void _handleTap(){
-    setState(() {
-        _text = 'Scan on';
-    });
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +43,10 @@ class HomeState extends State<Home> {
           ),
           body: TabBarView(
             children: <Widget>[
-              TabOne(text: _text),
+              TabOne(),
               TabTwo()
             ],
           ),
-
-//          floatingActionButton: MyFloatingButton(onChanged: _handleTap)
       ),
     );
   }

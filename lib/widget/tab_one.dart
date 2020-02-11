@@ -6,13 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
 
-String string;
+import '../home.dart';
+
 
 class TabOne extends StatefulWidget {
-  TabOne({Key key, this.text}) : super(key: key);
-
-  final String text;
-
   @override
   TabOneState createState() => TabOneState();
 }
@@ -56,7 +53,8 @@ class TabOneState extends State<TabOne> {
       dynamic js = jsonDecode(s.substring(i, j));
       print(js
       );
-      return s.substring(i, j);
+      patient = s.substring(i, j);
+      return patient;
     }
   }
 
@@ -65,18 +63,19 @@ class TabOneState extends State<TabOne> {
     return FutureBuilder(
         future: startNFC(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData || (snapshot.data as String).length <= 0) {
-            return Center(
-                child: CircularProgressIndicator());
-          } else {
-            if(snapshot.error!= null) {
+            if (patient == null && (!snapshot.hasData || (snapshot.data as String).length <= 0)) {
               return Center(
-                child: Text('Error reading'),
-              );
-            }else{
-              return Padding(child: TabOneTable(snapshot.data), padding: EdgeInsets.all(20));
+                  child: CircularProgressIndicator());
+            } else {
+              if (snapshot.error != null) {
+                return Center(
+                  child: Text('Error reading'),
+                );
+              } else {
+                return Padding(child: TabOneTable(patient),
+                    padding: EdgeInsets.all(20));
+              }
             }
-          }
         }
     );
   }

@@ -15,7 +15,7 @@ class JsonConverter {
 
   static List<MyTableCell> getCells(String jsonString) {
     if(!dev){
-      print('Dev:' +jsonString);
+      print('NotDev:' +jsonString);
     }
     List<MyTableCell> list = [];
     Map<String, dynamic> json = getJsonMap(dev?text:jsonString);
