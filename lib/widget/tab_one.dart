@@ -5,7 +5,6 @@ import 'package:death_delay/widget/json_converter.dart';
 import 'package:death_delay/widget/tab_one_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
 
 import '../home.dart';
