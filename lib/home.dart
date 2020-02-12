@@ -1,4 +1,5 @@
 import 'package:death_delay/settings.dart';
+import 'package:death_delay/theme/apptheme.dart';
 import 'package:death_delay/widget/tab_two.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,12 @@ class HomeState extends State<Home> {
       length: 2,
       child: Scaffold(
           appBar: AppBar(
-            title: Text('DeathDelay'),
+            backgroundColor: apptheme.background,
+            elevation: 0.0,
+            title: Text('DeathDelay', style: TextStyle(color: apptheme.darkerText),),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.settings),
+                icon: Icon(Icons.settings, color: apptheme.darkerText,),
                 tooltip: 'Settings',
                 onPressed: () {
 //              nav to settings
@@ -35,6 +38,8 @@ class HomeState extends State<Home> {
               )
             ],
             bottom: TabBar(
+              labelColor: apptheme.darkerText,
+              indicatorColor: apptheme.darkerText,
               tabs: <Widget>[
                 Tab(text: ('First Aid')),
                 Tab(text: ('Second Aid'))

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:death_delay/theme/apptheme.dart';
+import 'package:death_delay/widget/json_converter.dart';
 import 'package:death_delay/widget/tab_one_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,9 @@ class TabOneState extends State<TabOne> {
   NfcData _nfcData;
 
   Future<String> startNFC() async {
-    NfcData response;
+    patient = JsonConverter.text;
+    return JsonConverter.text;
+    /*NfcData response;
 
     setState(() {
       _nfcData = NfcData();
@@ -36,9 +40,8 @@ class TabOneState extends State<TabOne> {
     setState(() {
       _nfcData = response;
     });
-    return data(_nfcData);
+    return data(_nfcData);*/
   }
-
   String data(NfcData nd){
     print('ID:' + nd.id);
     print('Content:' + nd.content);
@@ -60,9 +63,11 @@ class TabOneState extends State<TabOne> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: startNFC(),
-        builder: (context, snapshot) {
+    return Container(
+      color: apptheme.background,
+      child: FutureBuilder(
+          future: startNFC(),
+          builder: (context, snapshot) {
             if (patient == null && (!snapshot.hasData || (snapshot.data as String).length <= 0)) {
               return Center(
                   child: CircularProgressIndicator());
@@ -73,10 +78,11 @@ class TabOneState extends State<TabOne> {
                 );
               } else {
                 return Padding(child: TabOneTable(patient),
-                    padding: EdgeInsets.all(20));
+                    padding: EdgeInsets.all(0));
               }
             }
-        }
+          }
+      ),
     );
   }
 
