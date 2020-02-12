@@ -10,7 +10,7 @@ class TabOneTable extends StatefulWidget {
 
   TabOneTable(this.s);
 
-
+  //SEX
   @override
   TabOneTableState createState() => TabOneTableState();
 }
