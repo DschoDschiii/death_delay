@@ -26,6 +26,7 @@ class TabOneTableState extends State<TabOneTable> {
       child: Column(
         children: <Widget>[
           showMainInfo(context),
+          showSecondInfo(context),
         ],
       ),
 
@@ -35,10 +36,53 @@ class TabOneTableState extends State<TabOneTable> {
     );
   }
 }
-  Widget showMainInfo(context){
-    Map<String, dynamic> map = JsonConverter.getJsonMap(JsonConverter.text);
-    return getMainInfo(context, map["i"], map["n"], map["a"]);
-  }
+
+Widget showMainInfo(context){
+  Map<String, dynamic> map = JsonConverter.getJsonMap(JsonConverter.text);
+  return getMainInfo(context, map["i"], map["n"], map["a"]);
+}
+
+Widget showSecondInfo(context){
+  Map<String, dynamic> map = JsonConverter.getJsonMap(JsonConverter.text);
+  return getSecondInfo(context);
+}
+
+Widget getSecondInfo(context){
+  double width = MediaQuery.of(context).size.width;
+  double height = MediaQuery.of(context).size.height;
+
+  return Column(
+    children: <Widget>[
+      Padding(
+        padding: EdgeInsets.only(top: 17, left: (width - (width - 60)) / 2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Other Information",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontFamily: apptheme.fontName,
+                  fontSize: 20,
+                  color: apptheme.darkerText),
+            )
+          ],
+        ),
+      ),
+      //Other Informations
+      SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+              children: <Widget>[
+                Text('hhhhhi           dd     ddd                ddd '),
+                Text('hi                     dd d                  '),
+                Text('hi                                  kkkkk                 kkk'),
+              ]
+          )
+      )
+    ],
+  );
+}
 
 Widget getMainInfo(context, id, name, gebdate) {
   double width = MediaQuery.of(context).size.width;
