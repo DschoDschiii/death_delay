@@ -1,3 +1,4 @@
+import 'package:death_delay/class/save_things.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,20 +14,23 @@ class SettingsWidgetState extends State<SettingsWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Icon(Icons.lightbulb_outline),
-        Text('Darktheme'),
-        Switch(
-          value: darkTheme,
-          onChanged: _changeTheme,
+        RaisedButton(
+          child: Text('Logout'),
+          onPressed: _onPressed,
         )
       ],
     );
   }
 
-  void _changeTheme(bool value) {
-    setState(() {
-      darkTheme = value;
-    });
+  void _onPressed(){
+    SaveThings().saveLoggedIn(false);
   }
+
+//  void _changeTheme(bool value) {
+//    setState(() {
+//      darkTheme = value;
+//    });
+//  }
 }

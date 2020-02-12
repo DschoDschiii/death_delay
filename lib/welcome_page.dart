@@ -55,13 +55,6 @@ class _WelcomePageState extends State<WelcomePage> {
                   height: 20,
                 ),
                 SubmitButton(formKey: _formKey),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  alignment: Alignment.centerRight,
-                  child: Text('Forgot Password ?',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-                ),
               ],
             ),
           ),
