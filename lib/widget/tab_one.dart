@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:death_delay/theme/apptheme.dart';
-import 'package:death_delay/widget/json_converter.dart';
 import 'package:death_delay/widget/tab_one_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +16,10 @@ class TabOne extends StatefulWidget {
 
 class TabOneState extends State<TabOne> {
   NfcData _nfcData;
+  String _error;
 
   Future<String> startNFC() async {
-    patient = JsonConverter.text;
-    return JsonConverter.text;
-    /*NfcData response;
+    NfcData response;
 
     setState(() {
       _nfcData = NfcData();
@@ -31,21 +29,20 @@ class TabOneState extends State<TabOne> {
     print('NFC: Scan started');
 
     try {
-      print('NFC: Scan readed NFC tag');
       response = await FlutterNfcReader.read();
+      print('NFC: Scan readed NFC tag');
     } on PlatformException {
+      setState(() {
+        _error = "Please enable NFC";
+      });
       print('NFC: Scan stopped exception');
     }
     setState(() {
       _nfcData = response;
     });
-    return data(_nfcData);*/
+    return data(_nfcData);
   }
   String data(NfcData nd){
-    print('ID:' + nd.id);
-    print('Content:' + nd.content);
-    print('Error:' + nd.error);
-    print('Status:' + nd.status.toString());
     String s = nd.content;
     int i = s.indexOf('{');
     int j = s.lastIndexOf('}')+1;
@@ -67,22 +64,32 @@ class TabOneState extends State<TabOne> {
       child: FutureBuilder(
           future: startNFC(),
           builder: (context, snapshot) {
-            if (patient == null && (!snapshot.hasData || (snapshot.data as String).length <= 0)) {
-              return Center(
-                  child: CircularProgressIndicator());
-            } else {
-              if (snapshot.error != null) {
-                return Center(
-                  child: Text('Error reading'),
-                );
-              } else {
-                return Padding(child: TabOneTable(patient),
-                    padding: EdgeInsets.all(0));
-              }
-            }
+            return getContent(context, snapshot);
           }
       ),
     );
   }
 
+  Widget getContent(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+    if(_error != null) {
+      return Center(
+        child: Text(_error),
+      );
+    }else{
+      if (patient == null &&
+          (!snapshot.hasData || (snapshot.data as String).length <= 0)) {
+        return Center(
+            child: CircularProgressIndicator());
+      } else {
+        if (snapshot.error != null) {
+          return Center(
+            child: Text('Error reading, please enable NFC'),
+          );
+        } else {
+          return Padding(child: TabOneTable(patient),
+              padding: EdgeInsets.all(0));
+        }
+      }
+    }
+  }
 }
