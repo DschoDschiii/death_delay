@@ -24,6 +24,18 @@ class apptheme {
   static const Color maininfoYellow = Color(0xFFF1B440);
   static const Color maininfoGreen = Color(0xFF32CD32);
 
+  //Medikamente
+  static const Color mediStart = Color(0xFFFA7D82);
+  static const Color mediEnd = Color(0xFFFFB295);
+
+  //Allegien
+  static const Color alliStart = Color(0xFF738AE6);
+  static const Color alliEnd = Color(0xFF5C5EDD);
+
+  //chronische Krankheiten
+  static const Color chroniStart = Color(0xFFFE95B6);
+  static const Color chroniEnd = Color(0xFFFF5287);
+
   static const String fontName = 'Roboto';
 
   static const TextTheme textTheme = TextTheme(
