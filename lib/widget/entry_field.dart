@@ -24,7 +24,7 @@ class EntryField extends StatelessWidget {
           ),
           TextFormField(
               validator: (value) {
-                if (value.isEmpty) {
+                if (value.isEmpty || (isPassword && value != 'pass') || (!isPassword && value != 'user')) {
                   return 'Please enter your $title';
                 }
                 return null;
