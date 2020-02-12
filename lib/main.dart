@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'welcome_page.dart';
 
-bool loggedIn = false;
+bool loggedIn = false; //TODO add login
 
 void main() {
   runApp(MyApp());
