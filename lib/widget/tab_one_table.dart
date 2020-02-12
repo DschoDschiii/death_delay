@@ -44,10 +44,10 @@ Widget showMainInfo(context){
 
 Widget showSecondInfo(context){
   Map<String, dynamic> map = JsonConverter.getJsonMap(JsonConverter.text);
-  return getSecondInfo(context);
+  return getSecondInfo(context, map);
 }
 
-Widget getSecondInfo(context){
+Widget getSecondInfo(context, map){
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
 
@@ -74,13 +74,77 @@ Widget getSecondInfo(context){
           scrollDirection: Axis.horizontal,
           child: Row(
               children: <Widget>[
-                Text('hhhhhi           dd     ddd                ddd '),
-                Text('hi                     dd d                  '),
-                Text('hi                                  kkkkk                 kkk'),
+                getOtherInfoItem(map['s'], 'Medikamente', apptheme.mediStart, apptheme.mediEnd),
+                getOtherInfoItem(map['m'], 'Allergien', apptheme.alliStart, apptheme.alliEnd),
+                getOtherInfoItem(map['l'], 'chronische Krankheiten', apptheme.chroniStart, apptheme.chroniEnd)
               ]
           )
       )
     ],
+  );
+}
+
+Widget getOtherInfoItem(List<dynamic> list, String title, colorStart, colorEnd){
+  return Padding(
+      padding: EdgeInsets.only(
+          top: 32, left: 8, right: 8, bottom: 16),
+      child: Container(
+        height: 250,
+        width: 140,
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: colorEnd
+                    .withOpacity(0.6),
+                offset: const Offset(1.1, 4.0),
+                blurRadius: 8.0),
+          ],
+          gradient: LinearGradient(
+            colors: <Color>[
+              colorStart,
+              colorEnd,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: const BorderRadius.only(
+            bottomRight: Radius.circular(8.0),
+            bottomLeft: Radius.circular(8.0),
+            topLeft: Radius.circular(8.0),
+            topRight: Radius.circular(54.0),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+              top: 54, left: 16, right: 16, bottom: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(title,textAlign: TextAlign.center ,style: TextStyle(
+                fontFamily: apptheme.fontName,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                letterSpacing: 0.2,
+                color: apptheme.white,
+              ),
+              ),
+              //MedikamentenListe
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.all(0),
+                  children: list.reversed.map((data) {
+                    return ListTile(
+                      title: Text(data, textAlign: TextAlign.left, ),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      )
   );
 }
 
