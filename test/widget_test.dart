@@ -11,5 +11,5 @@ import 'package:death_delay/widget/json_converter.dart';
 
 void main() {
   print(JsonConverter.toJson());
-  EncryptThings().test();
+//  EncryptThings().test();
 }
