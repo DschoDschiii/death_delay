@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:death_delay/class/encrypt_things.dart';
 import 'package:death_delay/theme/apptheme.dart';
+import 'package:death_delay/widget/json_converter.dart';
 import 'package:death_delay/widget/tab_one_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class TabOneState extends State<TabOne> {
     return Container(
       color: apptheme.background,
       child: FutureBuilder(
-          future: startNFC(),
+          future: dev?JsonConverter.text:startNFC(),
           builder: (context, snapshot) {
             return getContent(context, snapshot);
           }

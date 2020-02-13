@@ -16,10 +16,8 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## todo
-- auslesen (fix: auslesen in dauerschleife wenn NFC aus)
-- anzeigen
-- dummies
-
 - darktheme
-
 - design-überarbeiten
++ complete rework of tab_one.dart needed
++ when logging in no more back please
+- send password at first login to user -> save in secure storage 
