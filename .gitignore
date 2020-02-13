@@ -1,3 +1,6 @@
+#Passwords
+lib/secret/secret.dart
+
 # Miscellaneous
 *.class
 *.log

@@ -6,8 +6,10 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 
+import 'package:death_delay/class/encrypt_things.dart';
 import 'package:death_delay/widget/json_converter.dart';
 
 void main() {
   print(JsonConverter.toJson());
+  EncryptThings().test();
 }

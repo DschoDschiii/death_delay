@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:death_delay/class/encrypt_things.dart';
 import 'package:death_delay/theme/apptheme.dart';
 import 'package:death_delay/widget/tab_one_table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
 
 import '../home.dart';
@@ -44,12 +46,13 @@ class TabOneState extends State<TabOne> {
   }
   String data(NfcData nd){
     String s = nd.content;
-    int i = s.indexOf('{');
-    int j = s.lastIndexOf('}')+1;
+    int i = s.indexOf('{')+1;
+    int j = s.lastIndexOf('=')+1;
     if(i == null || i<0){
       return '';
     }else {
-      dynamic js = jsonDecode(s.substring(i, j));
+      dynamic decrypted = EncryptThings().decrypt(s.substring(i, j));
+      dynamic js = jsonDecode(decrypted);
       print(js
       );
       patient = s.substring(i, j);
