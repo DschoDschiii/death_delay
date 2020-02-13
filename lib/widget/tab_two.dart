@@ -9,7 +9,7 @@ class TabTwoState extends State<TabTwo> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Image.asset('assets/images/logo.png'),
+      child: Image.asset('assets/images/allergic2.png'),
     );
   }
 }

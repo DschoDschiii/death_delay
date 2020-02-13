@@ -36,6 +36,11 @@ class apptheme {
   static const Color chroniStart = Color(0xFFFE95B6);
   static const Color chroniEnd = Color(0xFFFF5287);
 
+  //Bilder
+  static const String imagePathMedi = 'assets/images/pills.png';
+  static const String imagePathAlli = 'assets/images/allergic1.png';
+  static const String imagePathChroni = 'assets/images/chroni1.png';
+
   static const String fontName = 'Roboto';
 
   static const TextTheme textTheme = TextTheme(

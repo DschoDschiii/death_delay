@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-
 class TabOneTable extends StatefulWidget {
   final String s;
 
@@ -37,17 +36,17 @@ class TabOneTableState extends State<TabOneTable> {
   }
 }
 
-Widget showMainInfo(context){
+Widget showMainInfo(context) {
   Map<String, dynamic> map = JsonConverter.getJsonMap(JsonConverter.text);
   return getMainInfo(context, map["i"], map["n"], map["a"]);
 }
 
-Widget showSecondInfo(context){
+Widget showSecondInfo(context) {
   Map<String, dynamic> map = JsonConverter.getJsonMap(JsonConverter.text);
   return getSecondInfo(context, map);
 }
 
-Widget getSecondInfo(context, map){
+Widget getSecondInfo(context, map) {
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
 
@@ -71,14 +70,152 @@ Widget getSecondInfo(context, map){
       ),
       //Other Informations
       SingleChildScrollView(
+          //do bisch gwedn ban padding left du knedlwurst
+          padding: EdgeInsets.only(left: (width - (width - 60)) / 2 - 10),
           scrollDirection: Axis.horizontal,
-          child: Row(
-              children: <Widget>[
-                getOtherInfoItem(map['s'], 'Medikamente', apptheme.mediStart, apptheme.mediEnd),
-                getOtherInfoItem(map['m'], 'Allergien', apptheme.alliStart, apptheme.alliEnd),
-                getOtherInfoItem(map['l'], 'chronische Krankheiten', apptheme.chroniStart, apptheme.chroniEnd)
-              ]
+          child: Row(children: <Widget>[
+            Hero(
+              tag: "Medi",
+              child: GestureDetector(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HeroDetailPage(
+                  colorEnd: apptheme.mediEnd,
+                  colorStart: apptheme.mediStart,
+                  list: map['s'],
+                  title: 'Medikamente',
+                  tag: "Medi",
+                ))),
+                child: getOtherInfoItem(
+                    context ,map['s'], 'Medikamente', apptheme.mediStart, apptheme.mediEnd, apptheme.imagePathMedi),
+              ),
+            ),
+            Hero(
+              tag: "Alli",
+              child: GestureDetector(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HeroDetailPage(
+                  colorEnd: apptheme.alliEnd,
+                  colorStart: apptheme.alliStart,
+                  list: map['m'],
+                  title: 'Allergien',
+                  tag: "Alli",
+                ))),
+                child: getOtherInfoItem(
+                    context, map['m'], 'Allergien', apptheme.alliStart, apptheme.alliEnd, apptheme.imagePathAlli),
+              ),
+            ),
+            Hero(
+              tag: "Chroni",
+              child: GestureDetector(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HeroDetailPage(
+                  colorEnd: apptheme.chroniEnd,
+                  colorStart: apptheme.chroniStart,
+                  list: map['l'],
+                  title: 'Anamnese',
+                  tag: "Chroni",
+                ))),
+                child: getOtherInfoItem(context, map['l'], 'chronische Krankheiten',
+                    apptheme.chroniStart, apptheme.chroniEnd, apptheme.imagePathChroni),
+              ),
+            ),
+          ]))
+    ],
+  );
+}
+
+Widget getOtherInfoItem(
+    context, List<dynamic> list, String title, colorStart, colorEnd, imagePath) {
+  double width = MediaQuery.of(context).size.width;
+  double height = MediaQuery.of(context).size.height;
+
+  return Stack(
+    children: <Widget>[
+      Padding(
+          padding: EdgeInsets.only(top: 32, left: 8, right: 8, bottom: 16),
+          child: Container(
+            height: height/2.7,
+            width: 140,
+            decoration: BoxDecoration(
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: colorEnd.withOpacity(0.6),
+                    offset: const Offset(1.1, 4.0),
+                    blurRadius: 8.0),
+              ],
+              gradient: LinearGradient(
+                colors: <Color>[
+                  colorStart,
+                  colorEnd,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(8.0),
+                bottomLeft: Radius.circular(8.0),
+                topLeft: Radius.circular(8.0),
+                topRight: Radius.circular(54.0),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 54, left: 16, right: 16, bottom: 8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    title,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: apptheme.fontName,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      letterSpacing: 0.2,
+                      color: apptheme.white,
+                    ),
+                  ),
+                  //MedikamentenListe
+                  Expanded(
+                    child: ListView(
+                      padding: EdgeInsets.only(top: 5),
+                      children: list.reversed.map((data) {
+                        return Text(
+                          data,
+                          textAlign: TextAlign.left, style: TextStyle(
+                            fontFamily: apptheme.fontName,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                            letterSpacing: 0.2,
+                            color: apptheme.white
+                        ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           )
+      ),
+      Positioned(
+        top: 0,
+        left: 0,
+        child: Container(
+          width: 84,
+          height: 84,
+          decoration: BoxDecoration(
+            color: apptheme.nearlyWhite.withOpacity(0.2),
+            shape: BoxShape.circle,
+          ),
+        ),
+      ),
+      Positioned(
+        top: 8  ,
+        left: 8,
+        child: SizedBox(
+          width: 60,
+          height: 60,
+          child: Image.asset(imagePath),
+        ),
       )
     ],
   );
@@ -173,7 +310,7 @@ Widget getMainInfo(context, id, name, gebdate) {
       Padding(
           padding: EdgeInsets.only(top: 12),
           child: SizedBox(
-              height: (height - 370)/2,
+              height: (height - 370) / 2,
               width: width - 60,
               child: Container(
                   decoration: BoxDecoration(
@@ -267,7 +404,8 @@ Widget getMainInfo(context, id, name, gebdate) {
                                       height: 48,
                                       width: 2,
                                       decoration: BoxDecoration(
-                                        color: apptheme.maininfoRed.withOpacity(0.5),
+                                        color: apptheme.maininfoRed
+                                            .withOpacity(0.5),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(4.0)),
                                       ),
@@ -324,25 +462,27 @@ Widget getMainInfo(context, id, name, gebdate) {
                             children: <Widget>[
                               //MainInfoOne
                               Padding(
-                                padding: EdgeInsets.only(top: 10, right: 10, bottom: 10, left:70),
+                                padding: EdgeInsets.only(
+                                    top: 10, right: 10, bottom: 10, left: 70),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
                                       height: 48,
                                       width: 2,
                                       decoration: BoxDecoration(
-                                        color:
-                                        apptheme.maininfoGreen.withOpacity(0.5),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
+                                        color: apptheme.maininfoGreen
+                                            .withOpacity(0.5),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4.0)),
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(left: 10),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             "Geb. Datum",
@@ -352,7 +492,8 @@ Widget getMainInfo(context, id, name, gebdate) {
                                               fontWeight: FontWeight.w500,
                                               fontSize: 16,
                                               letterSpacing: -0.1,
-                                              color: apptheme.grey.withOpacity(0.5),
+                                              color: apptheme.grey
+                                                  .withOpacity(0.5),
                                             ),
                                           ),
                                           Padding(
@@ -363,7 +504,8 @@ Widget getMainInfo(context, id, name, gebdate) {
                                                   getDateString(gebdate),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
-                                                    fontFamily: apptheme.fontName,
+                                                    fontFamily:
+                                                        apptheme.fontName,
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16,
                                                     color: apptheme.darkerText,
@@ -380,25 +522,27 @@ Widget getMainInfo(context, id, name, gebdate) {
                               ),
                               //MainInfoTwo
                               Padding(
-                                padding: EdgeInsets.only(top: 10, right: 10, bottom: 10, left:70),
+                                padding: EdgeInsets.only(
+                                    top: 10, right: 10, bottom: 10, left: 70),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
                                       height: 48,
                                       width: 2,
                                       decoration: BoxDecoration(
-                                        color:
-                                        apptheme.maininfoYellow.withOpacity(0.5),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(4.0)),
+                                        color: apptheme.maininfoYellow
+                                            .withOpacity(0.5),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4.0)),
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(left: 10),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             "Alter",
@@ -408,7 +552,8 @@ Widget getMainInfo(context, id, name, gebdate) {
                                               fontWeight: FontWeight.w500,
                                               fontSize: 16,
                                               letterSpacing: -0.1,
-                                              color: apptheme.grey.withOpacity(0.5),
+                                              color: apptheme.grey
+                                                  .withOpacity(0.5),
                                             ),
                                           ),
                                           Padding(
@@ -416,10 +561,14 @@ Widget getMainInfo(context, id, name, gebdate) {
                                             child: Row(
                                               children: <Widget>[
                                                 Text(
-                                                  getAge(getDateDateTime(getDateString(gebdate))).toString(),
+                                                  getAge(getDateDateTime(
+                                                          getDateString(
+                                                              gebdate)))
+                                                      .toString(),
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
-                                                    fontFamily: apptheme.fontName,
+                                                    fontFamily:
+                                                        apptheme.fontName,
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 16,
                                                     color: apptheme.darkerText,
@@ -442,17 +591,21 @@ Widget getMainInfo(context, id, name, gebdate) {
   );
 }
 
-String getDateString(String date){
-  return date.substring(0,2) + '.' + date.substring(2,4) + '.' + date.substring(4,8);
+String getDateString(String date) {
+  return date.substring(0, 2) +
+      '.' +
+      date.substring(2, 4) +
+      '.' +
+      date.substring(4, 8);
 }
 
-DateTime getDateDateTime(String date){
+DateTime getDateDateTime(String date) {
   DateFormat dateFormat = DateFormat("dd.MM.yyyy");
   DateTime dateTime = dateFormat.parse(date);
   return dateTime;
 }
 
-int getAge(DateTime birthDate){
+int getAge(DateTime birthDate) {
   DateTime currentDate = DateTime.now();
   int age = currentDate.year - birthDate.year;
   int month1 = currentDate.month;
@@ -467,4 +620,106 @@ int getAge(DateTime birthDate){
     }
   }
   return age;
+}
+
+class HeroDetailPage extends StatelessWidget {
+  final Color colorEnd;
+  final Color colorStart;
+  final String title;
+  final List<dynamic> list;
+
+  final String tag;
+
+  HeroDetailPage({this.colorEnd, this.colorStart, this.title, this.list, this.tag});
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    return Container(
+      color: apptheme.background,
+      child: Hero(
+        tag: tag,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(top: 40, left: 16, right: 16, bottom: 24),
+                  child: Container(
+                    height: height,
+                    width: width,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: colorEnd.withOpacity(0.6),
+                            offset: const Offset(1.1, 4.0),
+                            blurRadius: 8.0),
+                      ],
+                      gradient: LinearGradient(
+                        colors: <Color>[
+                          colorStart,
+                          colorEnd,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(54.0),
+                        bottomLeft: Radius.circular(54.0),
+                        topLeft: Radius.circular(8.0),
+                        topRight: Radius.circular(54.0),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 16, left: 16, right: 16, bottom: 24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            title,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontFamily: apptheme.fontName,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
+                              letterSpacing: 0.2,
+                              color: apptheme.white,
+                            ),
+                          ),
+                          //MedikamentenListe
+                          Expanded(
+                            child: ListView(
+                              padding: EdgeInsets.only(top: 16),
+                              children: list.reversed.map((data) {
+                                return Text(
+                                  '- ' + data,
+                                  textAlign: TextAlign.left, style: TextStyle(
+                                    fontFamily: apptheme.fontName,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
+                                    letterSpacing: 0.2,
+                                    color: apptheme.white
+                                ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+              ),
+            ],
+          ),
+        )
+      ),
+    )
+    ;
+  }
 }
