@@ -67,7 +67,7 @@ class TabOneState extends State<TabOne> {
     return Container(
       color: apptheme.background,
       child: FutureBuilder(
-          future: dev?JsonConverter.text:startNFC(),
+          future: dev?getDummie():startNFC(),
           builder: (context, snapshot) {
             return getContent(context, snapshot);
           }
@@ -76,6 +76,10 @@ class TabOneState extends State<TabOne> {
   }
 
   Widget getContent(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+    if(dev){
+      return Padding(child: TabOneTable(JsonConverter.text),
+          padding: EdgeInsets.all(0));
+    }else{
     if(_error != null) {
       return Center(
         child: Text(_error),
@@ -96,5 +100,10 @@ class TabOneState extends State<TabOne> {
         }
       }
     }
+    }
   }
+}
+
+Future<String> getDummie() async{
+  return (JsonConverter.text as Future<String>);
 }
