@@ -33,6 +33,7 @@ class TabOneState extends State<TabOne> {
     try {
       response = await FlutterNfcReader.read();
       print('NFC: Scan readed NFC tag');
+      _error = null;
     } on PlatformException {
       setState(() {
         _error = "Please enable NFC";
@@ -84,7 +85,7 @@ class TabOneState extends State<TabOne> {
         return Center(
             child: CircularProgressIndicator());
       } else {
-        if (snapshot.error != null) {
+        if (snapshot.error != null && patient == null) {
           return Center(
             child: Text('Error reading, please enable NFC'),
           );
