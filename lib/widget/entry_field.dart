@@ -1,3 +1,4 @@
+import 'package:death_delay/secret/secret.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class EntryField extends StatelessWidget {
                 if (value.isEmpty) {
                   return 'Please enter your $title';
                 }else{
-                  if((isPassword && value != 'pass') || (!isPassword && value != 'user')){
+                  if((isPassword && value != Secret.pass) || (!isPassword && value != Secret.user)){
                     return 'Please enter the correct $title';
                   }
                 }
